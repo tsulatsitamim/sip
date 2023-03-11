@@ -15,11 +15,12 @@ const menus = [
 </script>
 
 <template>
-    <div>
+    <div class="h-full flex flex-col">
         <AppSidebar :title="setting.title" :menus="menus"></AppSidebar>
         <AppNavbar :title="setting.title"></AppNavbar>
-        <div id="content" class="h-screen bg-red-500">
-            hello
+        <div id="content" class="lg:pl-[265px] flex-grow flex flex-col">
+            <div>subheader</div>
+            <div class="px-6 bg-red-300 flex-grow">body</div>
         </div>
     </div>
 </template>
