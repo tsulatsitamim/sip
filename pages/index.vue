@@ -2,14 +2,15 @@
 import Dashboard from 'tbb-ui/src/components/layouts/Dashboard.vue'
 import AppNavbar from 'tbb-ui/src/components/layouts/AppNavbar.vue'
 import AppSidebar from 'tbb-ui/src/components/layouts/AppSidebar.vue'
+import IconHome from 'tbb-ui/src/components/icons/IconHome.vue'
 
 const setting = {
     title: 'Mahad Ar-Ridho'
 }
 
 const menus = [
-    { name: 'Santri', path: '/santri' },
-    { name: 'Kelas', path: '/kelas' },
+    { name: 'Santri', path: '/santri', icon: IconHome },
+    { name: 'Kelas', path: '/kelas', icon: IconHome },
 ]
 </script>
 
