@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  css: ["~/assets/css/main.css", "tbb-ui/src/assets/main.css"],
+  css: ["tbb-ui/src/assets/main.css", "~/assets/css/main.css"],
   postcss: {
     plugins: {
       tailwindcss: {},
