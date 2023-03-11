@@ -19,8 +19,11 @@ const menus = [
         <AppSidebar :title="setting.title" :menus="menus"></AppSidebar>
         <AppNavbar :title="setting.title"></AppNavbar>
         <div id="content" class="lg:pl-[265px] flex-grow flex flex-col">
-            <div>subheader</div>
-            <div class="px-6 bg-red-300 flex-grow">body</div>
+            <div class="py-4 px-6">Sub Header</div>
+            <div class="px-6 flex-grow">Body</div>
+            <div class="bg-white py-3 px-6 text-right"> <span class="mr-1 text-slate-400">{{ new Date().getFullYear()
+            }}</span> Mahad
+                Ar-Ridho</div>
         </div>
     </div>
 </template>
