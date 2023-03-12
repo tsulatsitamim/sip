@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import DataTable from 'tbb-ui/src/components/table/DataTable.vue'
 
+const data = await $fetch('/api/academic-year')
 const table = {
-    data: [{
-        id: 1,
-        name: 'Tamim'
-    }, {
-        id: 2,
-        name: 'Zubair'
-    }],
+    data,
     columns: [
-        { title: 'id', field: 'id' },
         { title: 'Name', field: 'name' },
     ]
 }
