@@ -1,5 +1,4 @@
 <script setup>
-import Dashboard from 'tbb-ui/src/components/layouts/Dashboard.vue'
 import AppNavbar from 'tbb-ui/src/components/layouts/AppNavbar.vue'
 import AppSidebar from 'tbb-ui/src/components/layouts/AppSidebar.vue'
 import IconHome from 'tbb-ui/src/components/icons/IconHome.vue'
