@@ -1,11 +1,8 @@
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
-  const academicYear = await prisma.academicYear.update({
-    where: {
-      id: event.context.params?.id,
-    },
-    data: body,
+  const academicYear = await prisma.academicYear.create({
+    data: { name: body.name },
   });
 
   return { data: academicYear };

@@ -8,6 +8,9 @@ defineProps({
 
 <template>
     <AppDashboard :title="title" :settings="useSettings" :menus="useMenus">
+        <template #toolbar>
+            <slot name="toolbar"></slot>
+        </template>
         <slot></slot>
     </AppDashboard>
 </template>

@@ -4,15 +4,21 @@ import FormInput from 'tbb-ui/src/components/form/FormInput.vue'
 import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import AppAlert from 'tbb-ui/src/components/AppAlert.vue'
 
-const { params } = useRoute()
+const { params, path } = useRoute()
+const router = useRouter()
 const appAlert = ref<InstanceType<typeof AppAlert> | null>(null)
 const form = reactive({
+    id: '',
     name: ''
 })
+const isCreate = params.id === 'tambah'
 
 try {
-    const data = await $fetch(`/api/academic-year/${params.id}`)
-    form.name = data.data.name
+    if (!isCreate) {
+        const data = await $fetch(`/api/academic-year/${params.id}`)
+        form.id = data.data.id
+        form.name = data.data.name
+    }
 } catch (error) {
     alertError()
 }
@@ -23,7 +29,15 @@ const save = async () => {
 
     loading.value = true
     try {
-        await $fetch(`/api/academic-year/${params.id}`, { method: 'PATCH', body: form })
+        if (form.id) {
+            await $fetch(`/api/academic-year/${form.id}`, { method: 'PATCH', body: form })
+        } else {
+            await $fetch(`/api/academic-year`, { method: 'POST', body: form })
+
+            setTimeout(() => {
+                router.go(-1)
+            }, 1000);
+        }
         appAlert.value?.open()
     } catch (error) {
         appAlert.value?.open('danger')
@@ -34,12 +48,12 @@ const save = async () => {
 
 
 <template>
-    <NuxtLayout name="dashboard" :title="`${params.id === 'tambah' ? 'Tambah' : 'Edit'} Tahun Ajaran`">
+    <NuxtLayout name="dashboard" :title="`${isCreate ? 'Tambah' : 'Edit'} Tahun Ajaran`">
         <AppCard>
             <AppAlert ref="appAlert"></AppAlert>
             <FormInput v-model="form.name" label="Tahun Ajaran"></FormInput>
             <div class="text-right mt-5">
-                <AppButton @click="useRouter().go(-1)" color="secondary" class="mr-2">Kembali</AppButton>
+                <AppButton @click="router.go(-1)" color="secondary" class="mr-2">Kembali</AppButton>
                 <AppButton @click="save" :loading="loading"></AppButton>
             </div>
         </AppCard>
