@@ -11,6 +11,14 @@ datasource db {
 }
 
 model AcademicYear {
-  id   String @id @default(cuid())
-  name String
+  id            String          @id @default(cuid()) @db.Char(25)
+  name          String
+  AcademicClass AcademicClass[]
+}
+
+model AcademicClass {
+  id             String       @id @default(cuid()) @db.Char(25)
+  name           String
+  academicYearId String       @db.Char(25)
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
 }

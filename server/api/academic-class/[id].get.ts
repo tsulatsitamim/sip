@@ -1,11 +1,9 @@
 export default defineEventHandler(async (event) => {
-  await readBody(event);
-
-  await prisma.academicYear.delete({
+  const academicClass = await prisma.academicClass.findFirstOrThrow({
     where: {
       id: event.context.params?.id,
     },
   });
 
-  return { data: "ok" };
+  return { data: academicClass };
 });
