@@ -1,3 +1,5 @@
 export default defineEventHandler(async (event) => {
-  return prisma.academicYear.findMany();
+  const academicYear = await prisma.academicYear.findMany();
+
+  return { data: academicYear };
 });
