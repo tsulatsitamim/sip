@@ -4,7 +4,7 @@ import FormInput from 'tbb-ui/src/components/form/FormInput.vue'
 import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import AppAlert from 'tbb-ui/src/components/AppAlert.vue'
 
-const { params, path } = useRoute()
+const { params } = useRoute()
 const router = useRouter()
 const appAlert = ref<InstanceType<typeof AppAlert> | null>(null)
 const form = reactive({
