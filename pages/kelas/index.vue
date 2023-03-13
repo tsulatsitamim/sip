@@ -8,7 +8,7 @@ const academicYearId = ref(academicYears.length ? academicYears[0].id : null)
 
 const table = computed(() => {
     return {
-        url: `/api/academic-class?academicYear=${academicYearId.value}`,
+        url: `/api/academic-class?academicYearId=${academicYearId.value}`,
         columns: [
             { title: 'Name', field: 'name' },
             { title: 'Action', field: 'action', class: 'text-center w-32' },
