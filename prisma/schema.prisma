@@ -13,6 +13,7 @@ datasource db {
 model AcademicYear {
   id            String          @id @default(cuid()) @db.Char(25)
   name          String
+  status        Boolean         @default(false)
   AcademicClass AcademicClass[]
 }
 

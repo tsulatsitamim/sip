@@ -6,8 +6,10 @@ const table = {
     url: '/api/academic-year',
     columns: [
         { title: 'Name', field: 'name' },
+        { title: 'Status', field: 'status' },
         { title: 'Action', field: 'action', class: 'text-center w-32' },
-    ]
+    ],
+    mapper: ((x: any) => ({ ...x, status: x.status ? 'Aktif' : 'Non Aktif' }))
 }
 </script>
 
