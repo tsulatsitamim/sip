@@ -22,3 +22,22 @@ model AcademicClass {
   academicYearId String       @db.Char(25)
   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
 }
+
+model Student {
+  id               String   @id @default(cuid()) @db.Char(25)
+  name             String
+  nis              String
+  birth_place      String
+  birth_date       DateTime @db.Date
+  father_name      String
+  father_date      DateTime @db.Date
+  father_job       String
+  father_education String
+  mother_name      String
+  mother_date      DateTime @db.Date
+  mother_job       String
+  mother_education String
+  address          String
+  phone            String
+  note             String
+}
