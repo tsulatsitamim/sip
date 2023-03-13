@@ -1,0 +1,15 @@
+-- AlterTable
+ALTER TABLE `Student` MODIFY `nis` VARCHAR(191) NULL,
+    MODIFY `birth_place` VARCHAR(191) NULL,
+    MODIFY `birth_date` DATE NULL,
+    MODIFY `father_name` VARCHAR(191) NULL,
+    MODIFY `father_date` DATE NULL,
+    MODIFY `father_job` VARCHAR(191) NULL,
+    MODIFY `father_education` VARCHAR(191) NULL,
+    MODIFY `mother_name` VARCHAR(191) NULL,
+    MODIFY `mother_date` DATE NULL,
+    MODIFY `mother_job` VARCHAR(191) NULL,
+    MODIFY `mother_education` VARCHAR(191) NULL,
+    MODIFY `address` VARCHAR(191) NULL,
+    MODIFY `phone` VARCHAR(191) NULL,
+    MODIFY `note` VARCHAR(191) NULL;
