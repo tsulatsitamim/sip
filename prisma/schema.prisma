@@ -43,6 +43,7 @@ model Student {
   address                   String                      @default("")
   phone                     String                      @default("")
   note                      String                      @default("")
+  createdAt                 DateTime                    @default(now())
   StudentsOnAcademicClasses StudentsOnAcademicClasses[]
 }
 
