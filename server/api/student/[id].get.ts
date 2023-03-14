@@ -1,11 +1,33 @@
-import { Student } from "@prisma/client";
+import { Student, StudentsOnAcademicClasses } from "@prisma/client";
+import { serializeDate } from "~~/server/utils/serializeDate";
+import { pick } from "~~/utils/pick";
 
 export default defineEventHandler(async (event) => {
-  const student = (await prisma.student.findFirstOrThrow({
+  const student = await prisma.student.findFirstOrThrow({
     where: {
       id: event.context.params?.id,
     },
-  })) as SerializedDate<Student>;
+    include: {
+      StudentsOnAcademicClasses: {
+        include: { academicClass: { include: { academicYear: true } } },
+      },
+    },
+  });
 
-  return { data: student };
+  const academicClasses = student.StudentsOnAcademicClasses.map((x) => ({
+    id: x.academicClassId,
+    name: x.academicClass.name,
+    year: x.academicClass.academicYear.name,
+    status: x.academicClass.academicYear.status,
+  }));
+
+  return {
+    data: {
+      ...serializeDate(student),
+      // ...(exclude(student, [
+      //   "StudentsOnAcademicClasses",
+      // ]) as SerializedDate<Student>),
+      // academicClasses,
+    },
+  };
 });

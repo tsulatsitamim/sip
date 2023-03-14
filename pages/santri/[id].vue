@@ -34,9 +34,6 @@ try {
     if (!isCreate) {
         const { data } = await $fetch(`/api/student/${params.id}`)
         mapToReactive(form, data)
-        form.birthDate = form.birthDate ? form.birthDate.substring(0, 10) : null
-        form.fatherBirthDate = form.fatherBirthDate ? form.fatherBirthDate.substring(0, 10) : null
-        form.motherBirthDate = form.motherBirthDate ? form.motherBirthDate.substring(0, 10) : null
     }
 } catch (error) {
     alertError()
@@ -48,17 +45,19 @@ const save = async () => {
 
     loading.value = true
     try {
+        const body = {
+            ...form,
+            birthDate: form.birthDate ? new Date(form.birthDate) : null,
+            fatherBirthDate: form.fatherBirthDate ? new Date(form.fatherBirthDate) : null,
+            motherBirthDate: form.motherBirthDate ? new Date(form.motherBirthDate) : null,
+        }
+
         if (form.id) {
             await $fetch(`/api/student/${form.id}`, {
-                method: 'PATCH', body: {
-                    ...form,
-                    birthDate: form.birthDate ? new Date(form.birthDate) : null,
-                    fatherBirthDate: form.fatherBirthDate ? new Date(form.fatherBirthDate) : null,
-                    motherBirthDate: form.motherBirthDate ? new Date(form.motherBirthDate) : null,
-                }
+                method: 'PATCH', body
             })
         } else {
-            await $fetch(`/api/student`, { method: 'POST', body: form })
+            await $fetch(`/api/student`, { method: 'POST', body })
 
             setTimeout(() => {
                 router.go(-1)
@@ -79,6 +78,9 @@ const save = async () => {
     <NuxtLayout name="dashboard" :title="`${isCreate ? 'Tambah' : 'Edit'} Santri`">
         <AppCard>
             <AppAlert ref="appAlert"></AppAlert>
+            <div class="mb-5 font-medium text-base">
+                Biodata Santri:
+            </div>
             <FormInput v-model="form.name" class="mb-5" label="Nama Santri"></FormInput>
             <FormInput v-model="form.nis" class="mb-5" label="Nomer Induk Santri (NIS)"
                 placeholder="Nomer Induk Santri (NIS)"></FormInput>
@@ -99,10 +101,51 @@ const save = async () => {
             <FormInput v-model="form.phone" class="mb-5" label="Nomer Telepon"></FormInput>
             <FormText v-model="form.note" class="mb-5" label="Catatan"></FormText>
 
-            <div class="text-right mt-5">
+            <div class="mt-10 mb-5 font-medium text-base">
+                Riwayat Kelas:
+            </div>
+
+
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Kelas
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center w-[100px]">
+                                Tindakan
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr v-for="studentClass in form.classes" class="bg-white border-b hover:bg-gray-50">
+                                                                                <td class="px-6 py-4">
+                                                                                    {{ studentClass.name }} {{ studentClass }}
+                                                                                </td>
+                                                                                <td class="px-6 py-4">
+                                                                                    Silver
+                                                                                </td>
+                                                                                <td class="px-6 py-4 text-center">
+                                                                                    <button class="text-xs font-bold text-blue-500 shadow-none mr-3 hover:opacity-75">
+                                                                                        Hapus
+                                                                                    </button>
+                                                                                </td>
+                                                                            </tr> -->
+                    </tbody>
+                </table>
+            </div>
+
+
+
+            <div class="text-right mt-10">
                 <AppButton @click="router.go(-1)" color="secondary" class="mr-2">Kembali</AppButton>
                 <AppButton @click="save" :loading="loading"></AppButton>
             </div>
+
         </AppCard>
     </NuxtLayout>
 </template>
