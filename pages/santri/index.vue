@@ -22,7 +22,7 @@ const table = computed(() => {
 </script>
 
 <template>
-    <NuxtLayout name="dashboard" title="Data Induk Santri">
+    <NuxtLayout name="dashboard" title="Data Santri">
         <template #toolbar>
             <NuxtLink :to="`/santri/tambah`">
                 <AppButton>Tambah</AppButton>
