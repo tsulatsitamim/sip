@@ -1,12 +1,42 @@
+import omit from "lodash/omit";
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
+
+  const academicClassIds = body.academicClassIds.map((x: string) => ({
+    id: x,
+  }));
+
+  const existingStudent = await prisma.student.findFirstOrThrow({
+    where: {
+      id: event.context.params?.id,
+    },
+    include: {
+      academicClasses: {
+        where: {
+          id: {
+            notIn: body.academicClassIds,
+          },
+        },
+      },
+    },
+  });
 
   const student = await prisma.student.update({
     where: {
       id: event.context.params?.id,
     },
-    data: body,
+    data: {
+      ...omit(body, ["academicClassIds"]),
+      academicClasses: {
+        disconnect: existingStudent.academicClasses.map((x) => ({ id: x.id })),
+        connect: academicClassIds,
+      },
+    },
+    include: { academicClasses: true },
   });
 
-  return { data: student };
+  return {
+    data: student,
+  };
 });

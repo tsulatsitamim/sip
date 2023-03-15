@@ -18,40 +18,40 @@ model AcademicYear {
 }
 
 model AcademicClass {
-  id                        String                      @id @default(cuid()) @db.Char(25)
-  name                      String
-  academicYearId            String                      @db.Char(25)
-  academicYear              AcademicYear                @relation(fields: [academicYearId], references: [id])
-  StudentsOnAcademicClasses StudentsOnAcademicClasses[]
+  id             String       @id @default(cuid()) @db.Char(25)
+  name           String
+  academicYearId String       @db.Char(25)
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  students       Student[]
 }
 
 model Student {
-  id                        String                      @id @default(cuid()) @db.Char(25)
-  name                      String
-  nis                       String?                     @unique
-  birthPlace                String                      @default("")
-  birthDate                 DateTime?                   @db.Date
-  fatherName                String                      @default("")
-  fatherBirthPlace          String                      @default("")
-  fatherBirthDate           DateTime?                   @db.Date
-  fatherJob                 String                      @default("")
-  fatherEducation           String                      @default("")
-  motherName                String                      @default("")
-  motherBirthPlace          String                      @default("")
-  motherBirthDate           DateTime?                   @db.Date
-  motherEducation           String                      @default("")
-  address                   String                      @default("")
-  phone                     String                      @default("")
-  note                      String                      @default("")
-  createdAt                 DateTime                    @default(now())
-  StudentsOnAcademicClasses StudentsOnAcademicClasses[]
+  id               String          @id @default(cuid()) @db.Char(25)
+  name             String
+  nis              String?         @unique
+  birthPlace       String          @default("")
+  birthDate        DateTime?       @db.Date
+  fatherName       String          @default("")
+  fatherBirthPlace String          @default("")
+  fatherBirthDate  DateTime?       @db.Date
+  fatherJob        String          @default("")
+  fatherEducation  String          @default("")
+  motherName       String          @default("")
+  motherBirthPlace String          @default("")
+  motherBirthDate  DateTime?       @db.Date
+  motherEducation  String          @default("")
+  address          String          @default("")
+  phone            String          @default("")
+  note             String          @default("")
+  createdAt        DateTime        @default(now())
+  academicClasses  AcademicClass[]
 }
 
-model StudentsOnAcademicClasses {
-  studentId       String
-  academicClassId String
-  student         Student       @relation(fields: [studentId], references: [id])
-  academicClass   AcademicClass @relation(fields: [academicClassId], references: [id])
+// model StudentsOnAcademicClasses {
+//   studentId       String
+//   academicClassId String
+//   student         Student       @relation(fields: [studentId], references: [id])
+//   academicClass   AcademicClass @relation(fields: [academicClassId], references: [id])
 
-  @@id([studentId, academicClassId])
-}
+//   @@id([studentId, academicClassId])
+// }

@@ -4,7 +4,7 @@ import FormInput from 'tbb-ui/src/components/form/FormInput.vue'
 import FormText from 'tbb-ui/src/components/form/FormText.vue'
 import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import AppAlert from 'tbb-ui/src/components/AppAlert.vue'
-import { Student } from '.prisma/client'
+import { AcademicClass, AcademicYear, Student } from '.prisma/client'
 
 const { params } = useRoute()
 const router = useRouter()
@@ -27,8 +27,9 @@ const form = reactive<SerializedDate<Student>>({
     address: '',
     phone: '',
     note: '',
+    createdAt: new Date().toISOString()
 })
-const academicClasses = ref<{ id: string, name: string, year: string, status: boolean }[]>([])
+const academicClasses = ref<(AcademicClass & { academicYear: AcademicYear })[]>([])
 const isCreate = params.id === 'tambah'
 
 try {
@@ -52,6 +53,7 @@ const save = async () => {
             birthDate: form.birthDate ? new Date(form.birthDate) : null,
             fatherBirthDate: form.fatherBirthDate ? new Date(form.fatherBirthDate) : null,
             motherBirthDate: form.motherBirthDate ? new Date(form.motherBirthDate) : null,
+            academicClassIds: academicClasses.value.map(x => x.id)
         }
 
         if (form.id) {
@@ -72,6 +74,10 @@ const save = async () => {
 
     scrollTop()
     loading.value = false
+}
+
+const removeClass = (i: number) => {
+    academicClasses.value.splice(i, 1)
 }
 </script>
 
@@ -133,22 +139,24 @@ const save = async () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="studentClass in academicClasses" class="bg-white border-b hover:bg-gray-50">
+                        <tr v-for="(studentClass, i) in academicClasses" :key="studentClass.id"
+                            class="bg-white border-b hover:bg-gray-50">
                             <td class="px-6 py-4">
-                                {{ studentClass.year }}
+                                {{ studentClass.academicYear.name }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ studentClass.name }}
                             </td>
                             <td class="px-6 py-4">
-                                <span v-if="studentClass.status"
+                                <span v-if="studentClass.academicYear.status"
                                     class="py-px px-3 h-5 text-xs text-teal-400 bg-teal-100 rounded-md">Aktif</span>
                                 <span v-else class="py-px px-3 h-5 text-xs text-gray-400 bg-gray-100 rounded-md">Tidak
                                     Aktif</span>
 
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <button class="text-xs font-bold text-blue-500 shadow-none mr-3 hover:opacity-75">
+                                <button @click="removeClass(i)"
+                                    class="text-xs font-bold text-blue-500 shadow-none mr-3 hover:opacity-75">
                                     Hapus
                                 </button>
                             </td>
