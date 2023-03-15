@@ -10,6 +10,13 @@ export default defineEventHandler(async (event) => {
     include: {
       StudentsOnAcademicClasses: {
         include: { academicClass: { include: { academicYear: true } } },
+        orderBy: {
+          academicClass: {
+            academicYear: {
+              name: "desc",
+            },
+          },
+        },
       },
     },
   });
