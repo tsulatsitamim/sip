@@ -24,10 +24,7 @@ export default defineEventHandler(async (event) => {
   return {
     data: {
       ...serializeDate(student),
-      // ...(exclude(student, [
-      //   "StudentsOnAcademicClasses",
-      // ]) as SerializedDate<Student>),
-      // academicClasses,
+      academicClasses,
     },
   };
 });

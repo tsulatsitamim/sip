@@ -36,8 +36,7 @@ export const serializeDate = <T extends object>(model: T) => {
     model[key] =
       model[key] && model[key] instanceof Date
         ? formatDate(model[key])
-        : // ? (dayjs(model[key] as Date).format("YYYY-MM-DD") as T[keyof T])
-          model[key];
+        : model[key];
   }
 
   return model as SerializedDate<T>;

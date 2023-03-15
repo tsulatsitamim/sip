@@ -28,12 +28,14 @@ const form = reactive<SerializedDate<Student>>({
     phone: '',
     note: '',
 })
+const academicClasses = ref<{ id: string, name: string, year: string, status: boolean }[]>([])
 const isCreate = params.id === 'tambah'
 
 try {
     if (!isCreate) {
         const { data } = await $fetch(`/api/student/${params.id}`)
         mapToReactive(form, data)
+        academicClasses.value = data.academicClasses
     }
 } catch (error) {
     alertError()
@@ -76,6 +78,12 @@ const save = async () => {
 
 <template>
     <NuxtLayout name="dashboard" :title="`${isCreate ? 'Tambah' : 'Edit'} Santri`">
+        <template #toolbar>
+            <AppButton @click="router.go(-1)">
+                Kembali
+            </AppButton>
+        </template>
+
         <AppCard>
             <AppAlert ref="appAlert"></AppAlert>
             <div class="mb-5 font-medium text-base">
@@ -111,6 +119,9 @@ const save = async () => {
                     <thead class="text-xs text-gray-700 bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3">
+                                Tahun Ajaran
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Kelas
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -122,19 +133,26 @@ const save = async () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr v-for="studentClass in form.classes" class="bg-white border-b hover:bg-gray-50">
-                                                                                <td class="px-6 py-4">
-                                                                                    {{ studentClass.name }} {{ studentClass }}
-                                                                                </td>
-                                                                                <td class="px-6 py-4">
-                                                                                    Silver
-                                                                                </td>
-                                                                                <td class="px-6 py-4 text-center">
-                                                                                    <button class="text-xs font-bold text-blue-500 shadow-none mr-3 hover:opacity-75">
-                                                                                        Hapus
-                                                                                    </button>
-                                                                                </td>
-                                                                            </tr> -->
+                        <tr v-for="studentClass in academicClasses" class="bg-white border-b hover:bg-gray-50">
+                            <td class="px-6 py-4">
+                                {{ studentClass.year }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ studentClass.name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <span v-if="studentClass.status"
+                                    class="py-px px-3 h-5 text-xs text-teal-400 bg-teal-100 rounded-md">Aktif</span>
+                                <span v-else class="py-px px-3 h-5 text-xs text-gray-400 bg-gray-100 rounded-md">Tidak
+                                    Aktif</span>
+
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="text-xs font-bold text-blue-500 shadow-none mr-3 hover:opacity-75">
+                                    Hapus
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
