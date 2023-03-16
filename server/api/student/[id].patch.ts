@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
     },
     data: {
       ...omit(body, ["academicClassIds"]),
+      nis: body.nis ? body.nis : null,
       academicClasses: {
         disconnect: existingStudent.academicClasses.map((x) => ({ id: x.id })),
         connect: academicClassIds,

@@ -2,13 +2,17 @@
 import AppCard from 'tbb-ui/src/components/AppCard.vue'
 import FormInput from 'tbb-ui/src/components/form/FormInput.vue'
 import FormText from 'tbb-ui/src/components/form/FormText.vue'
+import FormSelect from 'tbb-ui/src/components/form/FormSelect.vue'
 import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import AppAlert from 'tbb-ui/src/components/AppAlert.vue'
 import { AcademicClass, AcademicYear, Student } from '.prisma/client'
+import AppModal from '~/components/AppModal.vue'
+import orderBy from 'lodash/orderBy'
 
 const { params } = useRoute()
 const router = useRouter()
 const appAlert = ref<InstanceType<typeof AppAlert> | null>(null)
+const appModal = ref<InstanceType<typeof AppModal> | null>(null)
 const form = reactive<SerializedDate<Student>>({
     id: '',
     name: '',
@@ -36,7 +40,7 @@ try {
     if (!isCreate) {
         const { data } = await $fetch(`/api/student/${params.id}`)
         mapToReactive(form, data)
-        academicClasses.value = data.academicClasses
+        academicClasses.value = orderBy(data.academicClasses, x => x.academicYear.name, 'desc')
     }
 } catch (error) {
     alertError()
@@ -79,6 +83,28 @@ const save = async () => {
 const removeClass = (i: number) => {
     academicClasses.value.splice(i, 1)
 }
+
+const academicYearId = ref(null)
+const academicClassId = ref(null)
+const academicClassesByYear: Ref<AcademicClass[]> = ref([])
+
+const { data: academicYearsData } = await $fetch('/api/academic-year')
+watch(academicYearId, async (id) => {
+    academicClassId.value = null
+    academicClassesByYear.value = []
+    academicClassesByYear.value = (await $fetch(`/api/academic-class?academicYearId=${id}`)).data.filter(x => !academicClasses.value.some(y => y.id === x.id));
+})
+const addClass = () => {
+    const addedClass = academicClassesByYear.value.find(x => x.id === academicClassId.value)
+    const academicYear = academicYearsData.find(x => x.id === academicYearId.value)
+    if (addedClass && academicYear) {
+        academicClasses.value.push({ ...addedClass, academicYear })
+    }
+
+    academicClasses.value = orderBy(academicClasses.value, x => x.academicYear.name, 'desc')
+
+    appModal.value?.close()
+}
 </script>
 
 
@@ -115,8 +141,15 @@ const removeClass = (i: number) => {
             <FormInput v-model="form.phone" class="mb-5" label="Nomer Telepon"></FormInput>
             <FormText v-model="form.note" class="mb-5" label="Catatan"></FormText>
 
-            <div class="mt-10 mb-5 font-medium text-base">
-                Riwayat Kelas:
+            <div class="mt-10 mb-5 font-medium text-base flex items-center justify-between">
+                <div>
+                    Riwayat Kelas:
+                </div>
+                <button
+                    class="text-xs text-indigo-600 shadow-none hover:opacity-75 flex items-center border border-indigo-600 p-1.5 rounded-md"
+                    @click="appModal?.open()">
+                    Tambah Kelas
+                </button>
             </div>
 
 
@@ -172,6 +205,12 @@ const removeClass = (i: number) => {
                 <AppButton @click="save" :loading="loading"></AppButton>
             </div>
 
+            <AppModal ref="appModal" title="Tambah Kelas" save-label="Tambah" @save="addClass">
+                <FormSelect v-model="academicYearId" class="mb-5" label="Tahun Akademik" :items="academicYearsData">
+                </FormSelect>
+                <FormSelect v-model="academicClassId" class="mb-5" label="Kelas" :items="academicClassesByYear">
+                </FormSelect>
+            </AppModal>
         </AppCard>
     </NuxtLayout>
 </template>
