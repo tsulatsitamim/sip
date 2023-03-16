@@ -1,9 +1,7 @@
-import { Student } from "@prisma/client";
-
 export default defineEventHandler(async (event) => {
   const { academicClassId } = getQuery(event) as { academicClassId: string };
 
-  const students = (await prisma.student.findMany({
+  const students = await prisma.student.findMany({
     orderBy: {
       name: "desc",
     },
@@ -11,13 +9,13 @@ export default defineEventHandler(async (event) => {
       academicClassId === "all"
         ? {}
         : {
-            StudentsOnAcademicClasses: {
+            academicClasses: {
               some: {
-                academicClassId,
+                id: academicClassId,
               },
             },
           },
-  })) as SerializedDate<Student>[];
+  });
 
-  return { data: students };
+  return { data: students.map((x) => serializeDate(x)) };
 });
