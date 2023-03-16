@@ -21,9 +21,9 @@ model AcademicClass {
   id             String       @id @default(cuid()) @db.Char(25)
   name           String
   academicYearId String       @db.Char(25)
-  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
   students       Student[]
-  stage          Stage?       @relation(fields: [stageId], references: [id])
+  stage          Stage?       @relation(fields: [stageId], references: [id], onDelete: Restrict)
   stageId        String?      @db.Char(25)
 }
 
