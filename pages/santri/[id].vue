@@ -102,8 +102,11 @@ const addClass = () => {
     }
 
     academicClasses.value = orderBy(academicClasses.value, x => x.academicYear.name, 'desc')
-
     appModal.value?.close()
+
+    academicYearId.value = null
+    academicClassId.value = null
+    academicClassesByYear.value = []
 }
 </script>
 
