@@ -10,8 +10,9 @@ const table = computed(() => {
     return {
         url: `/api/academic-class?academicYearId=${academicYearId.value}`,
         columns: [
-            { title: 'Name', field: 'name' },
-            { title: 'Action', field: 'action', class: 'text-center w-32' },
+            { title: 'Jenjang', field: 'stage.name' },
+            { title: 'Nama', field: 'name' },
+            { title: 'Tindakan', field: 'action', class: 'text-center w-32' },
         ]
     }
 })

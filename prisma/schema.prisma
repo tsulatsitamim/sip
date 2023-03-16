@@ -23,6 +23,8 @@ model AcademicClass {
   academicYearId String       @db.Char(25)
   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
   students       Student[]
+  stage          Stage?       @relation(fields: [stageId], references: [id])
+  stageId        String?      @db.Char(25)
 }
 
 model Student {
@@ -48,6 +50,7 @@ model Student {
 }
 
 model Stage {
-  id   String @id @default(cuid()) @db.Char(25)
-  name String
+  id            String          @id @default(cuid()) @db.Char(25)
+  name          String
+  AcademicClass AcademicClass[]
 }

@@ -11,18 +11,21 @@ const appAlert = ref<InstanceType<typeof AppAlert> | null>(null)
 const form = reactive({
     id: '',
     name: '',
+    stageId: '' as null | string,
     academicYearId: query.academicYearId as string
 })
 const isCreate = params.id === 'tambah'
 
 const { data: academicYears } = await $fetch('/api/academic-year')
+const { data: stages } = await $fetch('/api/stage')
 
 try {
     if (!isCreate) {
-        const data = await $fetch(`/api/academic-class/${params.id}`)
-        form.id = data.data.id
-        form.name = data.data.name
-        form.academicYearId = data.data.academicYearId
+        const { data } = await $fetch(`/api/academic-class/${params.id}`)
+        form.id = data.id
+        form.name = data.name
+        form.academicYearId = data.academicYearId
+        form.stageId = data.stageId
     }
 } catch (error) {
     alertError()
@@ -56,6 +59,7 @@ const save = async () => {
     <NuxtLayout name="dashboard" :title="`${isCreate ? 'Tambah' : 'Edit'} Kelas`">
         <AppCard>
             <AppAlert ref="appAlert"></AppAlert>
+            <FormSelect label="Jenjang Pendidikan" v-model="form.stageId" class="mb-5" :items="stages"></FormSelect>
             <FormSelect label="Tahun Ajaran" v-model="form.academicYearId" class="mb-5" :items="academicYears"></FormSelect>
             <FormInput v-model="form.name" label="Kelas"></FormInput>
             <div class="text-right mt-5">

@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
           academicYearId: academicYearId,
         }
       : {},
+    include: { stage: true },
   });
 
   return { data: academicClasses };
