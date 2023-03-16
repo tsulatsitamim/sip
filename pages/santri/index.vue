@@ -15,6 +15,8 @@ const table = computed(() => {
         url: `/api/student?academicClassId=${academicClassId.value}`,
         columns: [
             { title: 'Name', field: 'name' },
+            { title: 'Nomer Induk', field: 'nis' },
+            { title: 'Kelas', field: 'className' },
             { title: 'Action', field: 'action', class: 'text-center w-32' },
         ]
     }
