@@ -47,11 +47,7 @@ model Student {
   academicClasses  AcademicClass[]
 }
 
-// model StudentsOnAcademicClasses {
-//   studentId       String
-//   academicClassId String
-//   student         Student       @relation(fields: [studentId], references: [id])
-//   academicClass   AcademicClass @relation(fields: [academicClassId], references: [id])
-
-//   @@id([studentId, academicClassId])
-// }
+model Stage {
+  id   String @id @default(cuid()) @db.Char(25)
+  name String
+}

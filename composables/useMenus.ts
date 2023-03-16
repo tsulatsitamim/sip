@@ -4,4 +4,5 @@ export const useMenus = [
   { name: "Santri", path: "/santri", icon: IconHome },
   { name: "Kelas", path: "/kelas", icon: IconHome },
   { name: "Tahun Ajaran", path: "/tahun-ajaran", icon: IconHome },
+  { name: "Jenjang", path: "/jenjang", icon: IconHome },
 ];
