@@ -7,6 +7,9 @@ export default defineEventHandler(async (event) => {
           academicYearId: academicYearId,
         }
       : {},
+    orderBy: {
+      name: "desc",
+    },
     include: { stage: true },
   });
 
