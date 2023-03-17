@@ -13,7 +13,7 @@ const academicClasses: Ref<{ id: string, name: string }[]> = ref([])
 
 const fetchAcademicClasses = async () => {
     academicClasses.value = []
-    const { data } = await $fetch(`/api/academic-class?academicYearId=${academicYearId.value}&academicClassId=${academicClassId.value}`)
+    const { data } = await $fetch(`/api/academic-class?academicYearId=${academicYearId.value}`)
     academicClasses.value = [
         { id: 'all', name: 'Semua' },
         ...data
@@ -26,7 +26,7 @@ if (academicYearId.value) {
 
 const table = computed(() => {
     return {
-        url: `/api/student?academicClassId=${academicClassId.value}`,
+        url: `/api/student?academicClassId=${academicClassId.value}&academicYearId=${academicYearId.value}`,
         columns: [
             { title: 'Name', field: 'name' },
             { title: 'Nomer Induk', field: 'nis' },

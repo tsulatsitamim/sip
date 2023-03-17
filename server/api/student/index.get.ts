@@ -1,7 +1,10 @@
 import pick from "lodash/pick";
 
 export default defineEventHandler(async (event) => {
-  const { academicClassId } = getQuery(event) as { academicClassId: string };
+  const { academicClassId, academicYearId } = getQuery(event) as {
+    academicClassId: string;
+    academicYearId: string;
+  };
 
   const students = await prisma.student.findMany({
     select: {
@@ -11,8 +14,9 @@ export default defineEventHandler(async (event) => {
       academicClasses: {
         where: {
           academicYear: {
-            status: true,
+            id: academicYearId,
           },
+          id: academicClassId === "all" ? undefined : academicClassId,
         },
       },
     },
@@ -21,14 +25,19 @@ export default defineEventHandler(async (event) => {
     },
     where:
       academicClassId === "all"
-        ? {}
+        ? {
+            academicClasses: {
+              some: {
+                academicYear: {
+                  id: academicYearId,
+                },
+              },
+            },
+          }
         : {
             academicClasses: {
               some: {
                 id: academicClassId,
-                academicYear: {
-                  status: true,
-                },
               },
             },
           },
