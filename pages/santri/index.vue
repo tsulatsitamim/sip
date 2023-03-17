@@ -3,12 +3,26 @@ import CrudDataTable from 'tbb-ui/src/components/table/CrudDataTable.vue'
 import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import FormSelect from 'tbb-ui/src/components/form/FormSelect.vue'
 
-const { data } = await $fetch('/api/academic-class?status=active')
-const activeClasses = [
-    { id: 'all', name: 'Semua' },
-    ...data
-]
+
+const { data: academicYears } = await $fetch('/api/academic-year')
+const academicYearId = ref(academicYears.length ? academicYears[0].id : null)
+
+
 const academicClassId = ref('all')
+const academicClasses: Ref<{ id: string, name: string }[]> = ref([])
+
+const fetchAcademicClasses = async () => {
+    academicClasses.value = []
+    const { data } = await $fetch(`/api/academic-class?academicYearId=${academicYearId.value}&academicClassId=${academicClassId.value}`)
+    academicClasses.value = [
+        { id: 'all', name: 'Semua' },
+        ...data
+    ]
+}
+
+if (academicYearId.value) {
+    await fetchAcademicClasses()
+}
 
 const table = computed(() => {
     return {
@@ -21,6 +35,11 @@ const table = computed(() => {
         ]
     }
 })
+
+watch(academicYearId, async () => {
+    academicClassId.value = 'all'
+    await fetchAcademicClasses()
+})
 </script>
 
 <template>
@@ -32,8 +51,12 @@ const table = computed(() => {
         </template>
         <CrudDataTable :table="table" crud-path="/santri">
             <template #header>
-                <div class="md:w-72 md:ml-3">
-                    <FormSelect v-model="academicClassId" class="" :items="activeClasses" placeholder="Pilih Kelas">
+                <div class="md:w-72 md:ml-3 mb-3 md:mb-0">
+                    <FormSelect v-model="academicYearId" class="" :items="academicYears" placeholder="Pilih Tahun Akademik">
+                    </FormSelect>
+                </div>
+                <div class="md:w-72 md:ml-3 mb-3 md:mb-0">
+                    <FormSelect v-model="academicClassId" class="" :items="academicClasses" placeholder="Pilih Kelas">
                     </FormSelect>
                 </div>
             </template>
