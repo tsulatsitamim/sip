@@ -9,6 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.15.0",
     "autoprefixer": "^10.4.14",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
+    "bcrypt": "^5.1.0",
     "dayjs": "^1.11.7",
     "lodash": "^4.17.21",
     "tbb-ui": "github:tsulatsitamim/tbb-ui"
