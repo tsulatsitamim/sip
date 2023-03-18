@@ -26,13 +26,18 @@ export default defineEventHandler(async (event) => {
     where:
       academicClassId === "all"
         ? {
-            academicClasses: {
-              some: {
-                academicYear: {
-                  id: academicYearId,
-                },
-              },
-            },
+            academicClasses:
+              academicYearId === "noclass"
+                ? {
+                    none: {},
+                  }
+                : {
+                    some: {
+                      academicYear: {
+                        id: academicYearId,
+                      },
+                    },
+                  },
           }
         : {
             academicClasses: {

@@ -52,7 +52,9 @@ watch(academicYearId, async () => {
         <CrudDataTable :table="table" crud-path="/santri">
             <template #header>
                 <div class="md:w-72 md:ml-3 mb-3 md:mb-0">
-                    <FormSelect v-model="academicYearId" class="" :items="academicYears" placeholder="Pilih Tahun Akademik">
+                    <FormSelect v-model="academicYearId" class=""
+                        :items="[...academicYears, { id: 'noclass', name: 'Tanpa Kelas' }]"
+                        placeholder="Pilih Tahun Akademik">
                     </FormSelect>
                 </div>
                 <div class="md:w-72 md:ml-3 mb-3 md:mb-0">
@@ -61,5 +63,4 @@ watch(academicYearId, async () => {
                 </div>
             </template>
         </CrudDataTable>
-    </NuxtLayout>
-</template>
+    </NuxtLayout></template>
