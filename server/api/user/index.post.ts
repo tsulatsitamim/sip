@@ -1,5 +1,5 @@
 import { hash } from "bcrypt";
-import omit from "lodash/omit";
+import omit from "lodash/omit.js";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);

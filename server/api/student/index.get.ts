@@ -1,4 +1,4 @@
-import pick from "lodash/pick";
+import pick from "lodash/pick.js";
 
 export default defineEventHandler(async (event) => {
   const { academicClassId, academicYearId } = getQuery(event) as {

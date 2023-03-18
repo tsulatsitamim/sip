@@ -7,7 +7,7 @@ import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import AppAlert from 'tbb-ui/src/components/AppAlert.vue'
 import { AcademicClass, AcademicYear, Student } from '.prisma/client'
 import AppModal from '~/components/AppModal.vue'
-import orderBy from 'lodash/orderBy'
+import orderBy from 'lodash/orderBy.js'
 
 const { params } = useRoute()
 const router = useRouter()

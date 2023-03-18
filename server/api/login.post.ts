@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import pick from "lodash/pick";
+import pick from "lodash/pick.js";
 import jwt from "jsonwebtoken";
 
 const invalidResponse = {
