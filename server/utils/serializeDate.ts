@@ -19,8 +19,6 @@ const formatDate = (value: any) => {
 
 export const serializeDate = <T extends object>(model: T) => {
   for (let key of Object.keys(model) as Array<keyof T>) {
-    console.log(model[key]);
-
     model[key] =
       model[key] && model[key] instanceof Date
         ? formatDate(model[key])
