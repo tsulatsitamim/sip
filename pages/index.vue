@@ -3,6 +3,6 @@
 
 <template>
     <NuxtLayout name="dashboard" title="Dashboard">
-        Dashboard
+        Dalam Proses Pengembangan
     </NuxtLayout>
 </template>
