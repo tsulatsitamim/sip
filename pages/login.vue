@@ -23,7 +23,7 @@ const login = async () => {
 
 <template>
     <div class="bg-img  fixed inset-0 pt-[15vh]">
-        <div class="w-full px-5 max-w-sm mx-auto px-10 pt-5 pb-10 rounded-lg bg-white">
+        <div class="w-full max-w-sm mx-auto px-10 pt-5 pb-10 rounded-lg bg-white">
             <img src="/img/logo.png" alt="logo" class="h-20 mx-auto mb-7">
             <FormInput v-model="form.username" label="Username" class="mb-5"></FormInput>
             <FormInput v-model="form.password" type="password" label="Password" class="mb-8"></FormInput>
