@@ -151,7 +151,7 @@ const addClass = () => {
                 <button
                     class="text-xs text-indigo-600 shadow-none hover:opacity-75 flex items-center border border-indigo-600 p-1.5 rounded-md"
                     @click="appModal?.open()">
-                    Tambah Kelas
+                    Tambah Kelas Santri
                 </button>
             </div>
 
