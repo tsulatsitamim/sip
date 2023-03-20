@@ -1,5 +1,3 @@
-import omit from "lodash/omit.js";
-
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
