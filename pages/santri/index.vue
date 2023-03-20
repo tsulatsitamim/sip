@@ -3,6 +3,7 @@ import CrudDataTable from 'tbb-ui/src/components/table/CrudDataTable.vue'
 import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import FormSelect from 'tbb-ui/src/components/form/FormSelect.vue'
 import AppModal from 'tbb-ui/src/components/AppModal.vue'
+import fileDownload from 'js-file-download'
 import { AcademicClass } from '.prisma/client';
 
 
@@ -91,11 +92,36 @@ const addClass = async () => {
         alert('Mohon maaf ada ganguan sistem.')
     }
 }
+
+const loading = ref(false)
+const exportStudents = async () => {
+    loading.value = true
+
+    try {
+        const data = await $fetch('/api/export-students', {
+            responseType: 'blob',
+            method: 'POST',
+            body: {
+                studentIds: getCheckedRows(),
+                academicYearId: academicYearId.value
+            },
+        })
+
+        fileDownload(data, 'export.xlsx');
+    } catch (error) {
+        console.log(error);
+
+        alert('Mohon maaf ada ganguan sistem.')
+    }
+
+    loading.value = false
+}
 </script>
 
 <template>
     <NuxtLayout name="dashboard" title="Data Santri">
         <template #toolbar>
+            <AppButton :loading="loading" @click="exportStudents" color="success" class="mr-2">Download</AppButton>
             <AppButton @click="openMoveClassModal" color="danger" class="mr-2">Salin Santri</AppButton>
             <NuxtLink :to="`/santri/tambah`">
                 <AppButton>Tambah Santri</AppButton>

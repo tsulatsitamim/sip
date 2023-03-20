@@ -25,9 +25,11 @@
     "@prisma/client": "^4.11.0",
     "bcrypt": "^5.1.0",
     "dayjs": "^1.11.7",
+    "js-file-download": "^0.4.12",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
-    "tbb-ui": "github:tsulatsitamim/tbb-ui"
+    "tbb-ui": "github:tsulatsitamim/tbb-ui",
+    "xlsx": "^0.18.5"
   }
 }
