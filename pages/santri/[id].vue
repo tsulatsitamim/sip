@@ -9,6 +9,9 @@ import { AcademicClass, AcademicYear, Student } from '.prisma/client'
 import AppModal from '~/components/AppModal.vue'
 import orderBy from 'lodash/orderBy.js'
 
+const genders = [{ id: 'LakiLaki', name: 'Laki-Laki' }, { id: 'Perempuan', name: 'Perempuan' }]
+const bloodTypes = [{ id: 'A', name: 'A' }, { id: 'B', name: 'B' }, { id: 'AB', name: 'AB' }, { id: 'O', name: 'O' }]
+
 const { params } = useRoute()
 const router = useRouter()
 const appAlert = ref<InstanceType<typeof AppAlert> | null>(null)
@@ -16,7 +19,27 @@ const appModal = ref<InstanceType<typeof AppModal> | null>(null)
 const form = reactive<SerializedDate<Student>>({
     id: '',
     name: '',
+    nickname: null,
+    gender: null,
+    religion: null,
+    citizenship: '',
+    childOrder: null,
+    siblings: null,
+    stepSiblings: null,
+    fosterSiblings: null,
+    weight: null,
+    height: null,
+    bloodType: null,
+    diseaseHistory: '',
+    allergy: '',
+    spicy: null,
+    disability: '',
+    retardation: '',
+    stayWith: '',
+    characteristic: '',
+    language: '',
     nis: '',
+    nisn: null,
     birthPlace: '',
     birthDate: null,
     fatherName: '',
@@ -27,7 +50,17 @@ const form = reactive<SerializedDate<Student>>({
     motherName: '',
     motherBirthPlace: '',
     motherBirthDate: null,
+    motherJob: '',
     motherEducation: '',
+    parentAddress: null,
+    parentPhone: null,
+    waliName: '',
+    waliBirthPlace: '',
+    waliBirthDate: null,
+    waliJob: '',
+    waliEducation: '',
+    waliAddress: null,
+    waliPhone: null,
     address: '',
     phone: '',
     note: '',
@@ -57,6 +90,7 @@ const save = async () => {
             birthDate: form.birthDate ? new Date(form.birthDate) : null,
             fatherBirthDate: form.fatherBirthDate ? new Date(form.fatherBirthDate) : null,
             motherBirthDate: form.motherBirthDate ? new Date(form.motherBirthDate) : null,
+            waliBirthDate: form.waliBirthDate ? new Date(form.waliBirthDate) : null,
             academicClassIds: academicClasses.value.map(x => x.id)
         }
 
@@ -122,13 +156,46 @@ const addClass = () => {
         <AppCard>
             <AppAlert ref="appAlert"></AppAlert>
             <div class="mb-5 font-medium text-base">
-                Biodata Santri:
+                Keterangan Anak Didik:
             </div>
-            <FormInput v-model="form.name" class="mb-5" label="Nama Santri"></FormInput>
             <FormInput v-model="form.nis" class="mb-5" label="Nomer Induk Santri (NIS)"
                 placeholder="Nomer Induk Santri (NIS)"></FormInput>
+            <FormInput v-model="form.nis" class="mb-5" label="Nomer Induk Santri Nasional (NISN)"
+                placeholder="Nomer Induk Santri Nasional (NISN)"></FormInput>
+
+            <FormInput v-model="form.name" class="mb-5" label="Nama"></FormInput>
+            <FormInput v-model="form.nickname" class="mb-5" label="Nama Panggilan"></FormInput>
+            <FormSelect v-model="form.gender" class="mb-5" label="Jenis Kelamin" :items="genders">
+            </FormSelect>
             <FormInput v-model="form.birthPlace" class="mb-5" label="Tempat Lahir"></FormInput>
             <FormInput v-model="form.birthDate" type="date" class="mb-5" label="Tanggal Lahir"></FormInput>
+            <FormInput v-model="form.address" class="mb-5" label="Alamat Tempat Tinggal"></FormInput>
+            <FormSelect v-model="form.religion" class="mb-5" label="Agama" :items="[{ id: 'Islam', name: 'Islam' }]">
+            </FormSelect>
+            <FormInput v-model="form.citizenship" class="mb-5" label="Kewarganegaraan"></FormInput>
+            <FormInput v-model.number="form.childOrder" type="number" class="mb-5" label="Anak Ke-"></FormInput>
+            <FormInput v-model.number="form.siblings" type="number" class="mb-5" label="Jumlah Saudara Kandung"></FormInput>
+            <FormInput v-model.number="form.stepSiblings" type="number" class="mb-5" label="Jumlah Saudara Tiri">
+            </FormInput>
+            <FormInput v-model.number="form.fosterSiblings" type="number" class="mb-5" label="Jumlah Saudara Angkat">
+            </FormInput>
+            <FormInput v-model="form.language" class="mb-5" label="Bahasa Sehari-hari"></FormInput>
+            <FormInput v-model.number="form.weight" type="number" class="mb-5" label="Berat Badan (kg)"></FormInput>
+            <FormInput v-model.number="form.height" type="number" class="mb-5" label="Tinggi Badan (cm)"></FormInput>
+            <FormSelect v-model="form.bloodType" class="mb-5" label="Golongan Darah" :items="bloodTypes"></FormSelect>
+            <FormInput v-model="form.diseaseHistory" class="mb-5" label="Penyakit Berat yang Pernah Diderita"></FormInput>
+            <FormInput v-model="form.allergy" class="mb-5" label="Alergi Makanan/Lainnya"></FormInput>
+            <FormSelect v-model="form.spicy" class="mb-5" label="Boleh Makan Pedas"
+                :items="[{ id: 'Ya', name: 'Ya' }, { id: 'Tidak', name: 'Tidak' }]">
+            </FormSelect>
+            <FormInput v-model="form.disability" class="mb-5" label="Cacat Fisik"></FormInput>
+            <FormInput v-model="form.retardation" class="mb-5" label="Keterbelakangan Mental/Kebutuhan Khusus"></FormInput>
+            <FormInput v-model="form.stayWith" class="mb-5" label="Tinggal Bersama"></FormInput>
+            <FormInput v-model="form.characteristic" class="mb-5" label="Sifat Anak"></FormInput>
+
+            <div class="mb-5 font-medium text-base">
+                Keterangan Orang Tua/Wali:
+            </div>
             <FormInput v-model="form.fatherName" class="mb-5" label="Nama Ayah"></FormInput>
             <FormInput v-model="form.fatherBirthPlace" class="mb-5" label="Tempat Lahir Ayah"></FormInput>
             <FormInput v-model="form.fatherBirthDate" type="date" class="mb-5" label="Tanggal Lahir Ayah">
@@ -139,9 +206,24 @@ const addClass = () => {
             <FormInput v-model="form.motherBirthPlace" class="mb-5" label="Tempat Lahir Ibu"></FormInput>
             <FormInput v-model="form.motherBirthDate" type="date" class="mb-5" label="Tanggal Lahir Ibu">
             </FormInput>
+            <FormInput v-model="form.motherJob" class="mb-5" label="Pekerjaan Ibu"></FormInput>
             <FormInput v-model="form.motherEducation" class="mb-5" label="Pendidikan Ibu"></FormInput>
-            <FormInput v-model="form.address" class="mb-5" label="Alamat"></FormInput>
-            <FormInput v-model="form.phone" class="mb-5" label="Nomer Telepon"></FormInput>
+            <FormText v-model="form.parentAddress" class="mb-5" label="Alamat Orang Tua"></FormText>
+            <FormInput v-model="form.parentPhone" class="mb-5" label="Nomer Telepon Orang Tua"></FormInput>
+
+            <FormInput v-model="form.waliName" class="mb-5" label="Nama Wali"></FormInput>
+            <FormInput v-model="form.waliBirthPlace" class="mb-5" label="Tempat Lahir Wali"></FormInput>
+            <FormInput v-model="form.waliBirthDate" type="date" class="mb-5" label="Tanggal Lahir Wali">
+            </FormInput>
+            <FormInput v-model="form.waliJob" class="mb-5" label="Pekerjaan Wali"></FormInput>
+            <FormInput v-model="form.waliEducation" class="mb-5" label="Pendidikan Wali"></FormInput>
+            <FormText v-model="form.waliAddress" class="mb-5" label="Alamat Wali"></FormText>
+            <FormInput v-model="form.waliPhone" class="mb-5" label="Nomer Telepon Wali"></FormInput>
+
+
+            <div class="mb-5 font-medium text-base">
+                Lainnya:
+            </div>
             <FormText v-model="form.note" class="mb-5" label="Catatan"></FormText>
 
             <div class="mt-10 mb-5 font-medium text-base flex items-center justify-between">

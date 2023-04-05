@@ -36,10 +36,51 @@ model AcademicClass {
   stageId        String?      @db.Char(25)
 }
 
+enum Gender {
+  Laki_Laki
+  Perempuan
+}
+
+enum Religion {
+  Islam
+}
+
+enum BloodType {
+  O
+  A
+  B
+  AB
+}
+
+enum YaTidak {
+  Ya
+  Tidak
+}
+
 model Student {
   id               String          @id @default(cuid()) @db.Char(25)
   name             String
+  nickname         String?
+  gender           Gender?
+  religion         Religion?
+  citizenship      String?
+  childOrder       Int?
+  siblings         Int?
+  stepSiblings     Int?
+  fosterSiblings   Int?
+  weight           Int?
+  height           Int?
+  bloodType        BloodType?
+  diseaseHistory   String?
+  allergy          String?
+  spicy            YaTidak?
+  disability       String?
+  retardation      String?
+  stayWith         String?
+  characteristic   String?
+  language         String?
   nis              String?         @unique
+  nisn             String?         @unique
   birthPlace       String          @default("")
   birthDate        DateTime?       @db.Date
   fatherName       String          @default("")
@@ -50,7 +91,17 @@ model Student {
   motherName       String          @default("")
   motherBirthPlace String          @default("")
   motherBirthDate  DateTime?       @db.Date
+  motherJob        String          @default("")
   motherEducation  String          @default("")
+  parentAddress    String?
+  parentPhone      String?
+  waliName         String          @default("")
+  waliBirthPlace   String          @default("")
+  waliBirthDate    DateTime?       @db.Date
+  waliJob          String          @default("")
+  waliEducation    String          @default("")
+  waliAddress      String?
+  waliPhone        String?
   address          String          @default("")
   phone            String          @default("")
   note             String          @default("")
