@@ -57,6 +57,23 @@ enum YaTidak {
   Tidak
 }
 
+enum OriginType {
+  Baru
+  Lulusan
+  Pindahan
+}
+
+enum OriginGrade {
+  TA
+  TK
+  SD
+  MI
+  SMP
+  MTS
+  SMA
+  MA
+}
+
 model Student {
   id               String          @id @default(cuid()) @db.Char(25)
   name             String
@@ -107,6 +124,14 @@ model Student {
   note             String          @default("")
   createdAt        DateTime        @default(now())
   academicClasses  AcademicClass[]
+  originType       OriginType?
+  originGrade      OriginGrade?
+  originSchool     String?
+  originDate       DateTime?       @db.Date
+  originClass      String?
+  entryDate        DateTime?       @db.Date
+  entryProgram     String?
+  entryClass       String?
 }
 
 model Stage {

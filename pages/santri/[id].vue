@@ -64,7 +64,15 @@ const form = reactive<SerializedDate<Student>>({
     address: '',
     phone: '',
     note: '',
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    originType: null,
+    originGrade: null,
+    originSchool: null,
+    originDate: null,
+    originClass: null,
+    entryDate: null,
+    entryProgram: null,
+    entryClass: null
 })
 const academicClasses = ref<(AcademicClass & { academicYear: AcademicYear })[]>([])
 const isCreate = params.id === 'tambah'
@@ -87,10 +95,12 @@ const save = async () => {
     try {
         const body = {
             ...form,
-            birthDate: form.birthDate ? new Date(form.birthDate) : null,
-            fatherBirthDate: form.fatherBirthDate ? new Date(form.fatherBirthDate) : null,
-            motherBirthDate: form.motherBirthDate ? new Date(form.motherBirthDate) : null,
-            waliBirthDate: form.waliBirthDate ? new Date(form.waliBirthDate) : null,
+            birthDate: form.birthDate ? new Date(form.birthDate).toISOString() : null,
+            fatherBirthDate: form.fatherBirthDate ? new Date(form.fatherBirthDate).toISOString() : null,
+            motherBirthDate: form.motherBirthDate ? new Date(form.motherBirthDate).toISOString() : null,
+            waliBirthDate: form.waliBirthDate ? new Date(form.waliBirthDate).toISOString() : null,
+            originDate: form.originDate ? new Date(form.originDate).toISOString() : null,
+            entryDate: form.entryDate ? new Date(form.entryDate).toISOString() : null,
             academicClassIds: academicClasses.value.map(x => x.id)
         }
 
@@ -220,11 +230,43 @@ const addClass = () => {
             <FormText v-model="form.waliAddress" class="mb-5" label="Alamat Wali"></FormText>
             <FormInput v-model="form.waliPhone" class="mb-5" label="Nomer Telepon Wali"></FormInput>
 
+            <div class="mb-5 font-medium text-base">
+                Asal Sekolah:
+            </div>
+            <FormSelect v-model="form.originType" class="mb-5" label="Masuk Sebagai"
+                :items="[{ id: 'Baru', name: 'Baru' }, { id: 'Lulusan', name: 'Lulusan' }, { id: 'Pindahan', name: 'Pindahan' }]">
+            </FormSelect>
+            <template v-if="form.originType === 'Lulusan'">
+                <FormSelect v-model="form.originGrade" class="mb-5" label="Lulusan Dari"
+                    :items="[{ id: 'TA', name: 'TA' }, { id: 'TK', name: 'TK' }, { id: 'SD', name: 'SD' }, { id: 'MI', name: 'MI' }, { id: 'SMP', name: 'SMP' }, { id: 'MTS', name: 'MTS' }, { id: 'SMA', name: 'SMA' }, { id: 'MA', name: 'MA' }]">
+                </FormSelect>
+                <FormInput v-model="form.originSchool" class="mb-5" label="Nama Sekolah/Mahad"></FormInput>
+                <FormInput v-model="form.originDate" type="date" class="mb-5" label="Tanggal Lulus">
+                </FormInput>
+            </template>
+            <template v-if="form.originType === 'Pindahan'">
+                <FormSelect v-model="form.originGrade" class="mb-5" label="Pindahan Dari"
+                    :items="[{ id: 'TA', name: 'TA' }, { id: 'TK', name: 'TK' }, { id: 'SD', name: 'SD' }, { id: 'MI', name: 'MI' }, { id: 'SMP', name: 'SMP' }, { id: 'MTS', name: 'MTS' }, { id: 'SMA', name: 'SMA' }, { id: 'MA', name: 'MA' }]">
+                </FormSelect>
+                <FormInput v-model="form.originSchool" class="mb-5" label="Nama Sekolah/Mahad"></FormInput>
+                <FormInput v-model="form.originClass" class="mb-5" label="Pindahan dari Kelas"></FormInput>
+                <FormInput v-model="form.originDate" type="date" class="mb-5" label="Tanggal Pindah">
+                </FormInput>
+            </template>
+
+            <div class="mb-5 font-medium text-base">
+                Keterangan Penerimaan:
+            </div>
+            <FormInput v-model="form.entryDate" type="date" class="mb-5" label="Tanggal Diterima">
+            </FormInput>
+            <FormInput v-model="form.entryProgram" class="mb-5" label="Program"></FormInput>
+            <FormInput v-model="form.entryClass" class="mb-5" label="Kelas"></FormInput>
+
 
             <div class="mb-5 font-medium text-base">
                 Lainnya:
             </div>
-            <FormText v-model="form.note" class="mb-5" label="Catatan"></FormText>
+            <FormText v-model="form.note" class="mb-5" label="Catatan/Pelanggaran"></FormText>
 
             <div class="mt-10 mb-5 font-medium text-base flex items-center justify-between">
                 <div>
