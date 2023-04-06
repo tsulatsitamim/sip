@@ -79,12 +79,18 @@ export default defineEventHandler(async (event) => {
     })
   ).map((x) => ({
     ...x,
-    birthDate: dayjs(x.birthDate).format("YYYY-MM-DD"),
-    fatherBirthDate: dayjs(x.fatherBirthDate).format("YYYY-MM-DD"),
-    motherBirthDate: dayjs(x.motherBirthDate).format("YYYY-MM-DD"),
-    waliBirthDate: dayjs(x.waliBirthDate).format("YYYY-MM-DD"),
-    originDate: dayjs(x.originDate).format("YYYY-MM-DD"),
-    entryDate: dayjs(x.entryDate).format("YYYY-MM-DD"),
+    birthDate: x.birthDate ? dayjs(x.birthDate).format("YYYY-MM-DD") : "",
+    fatherBirthDate: x.fatherBirthDate
+      ? dayjs(x.fatherBirthDate).format("YYYY-MM-DD")
+      : "",
+    motherBirthDate: x.motherBirthDate
+      ? dayjs(x.motherBirthDate).format("YYYY-MM-DD")
+      : "",
+    waliBirthDate: x.waliBirthDate
+      ? dayjs(x.waliBirthDate).format("YYYY-MM-DD")
+      : "",
+    originDate: x.originDate ? dayjs(x.originDate).format("YYYY-MM-DD") : "",
+    entryDate: x.entryDate ? dayjs(x.entryDate).format("YYYY-MM-DD") : "",
   }));
 
   const entries = Object.entries(exportKeys);
