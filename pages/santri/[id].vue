@@ -176,7 +176,7 @@ const addClass = () => {
             <FormInput v-model="form.name" class="mb-5" label="Nama"></FormInput>
             <FormInput v-model="form.birthPlace" class="mb-5" label="Tempat Lahir"></FormInput>
             <FormInput v-model="form.birthDate" type="date" class="mb-5" label="Tanggal Lahir"></FormInput>
-            <FormText v-model="form.address" class="mb-5" label="Alamat Tempat Tinggal"></FormText>
+            <!-- <FormText v-model="form.address" class="mb-5" label="Alamat Tempat Tinggal"></FormText> -->
             <FormSelect v-model="form.bloodType" class="mb-5" label="Golongan Darah" :items="bloodTypes"></FormSelect>
 
             <div class="mb-5 font-medium text-base">
