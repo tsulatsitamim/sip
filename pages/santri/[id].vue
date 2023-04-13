@@ -170,14 +170,10 @@ const addClass = () => {
             </div>
             <FormInput v-model="form.nis" class="mb-5" label="Nomer Induk Santri (NIS)"
                 placeholder="Nomer Induk Santri (NIS)"></FormInput>
-            <FormInput v-model="form.nisn" class="mb-5" label="Nomer Induk Santri Nasional (NISN)"
-                placeholder="Nomer Induk Santri Nasional (NISN)"></FormInput>
 
             <FormInput v-model="form.name" class="mb-5" label="Nama"></FormInput>
             <FormInput v-model="form.birthPlace" class="mb-5" label="Tempat Lahir"></FormInput>
             <FormInput v-model="form.birthDate" type="date" class="mb-5" label="Tanggal Lahir"></FormInput>
-            <!-- <FormText v-model="form.address" class="mb-5" label="Alamat Tempat Tinggal"></FormText> -->
-            <FormSelect v-model="form.bloodType" class="mb-5" label="Golongan Darah" :items="bloodTypes"></FormSelect>
 
             <div class="mb-5 font-medium text-base">
                 Keterangan Orang Tua/Wali:
@@ -196,15 +192,6 @@ const addClass = () => {
             <FormInput v-model="form.motherEducation" class="mb-5" label="Pendidikan Ibu"></FormInput>
             <FormText v-model="form.parentAddress" class="mb-5" label="Alamat Orang Tua"></FormText>
             <FormInput v-model="form.parentPhone" class="mb-5" label="Nomer Telepon Orang Tua"></FormInput>
-
-            <FormInput v-model="form.waliName" class="mb-5" label="Nama Wali"></FormInput>
-            <FormInput v-model="form.waliBirthPlace" class="mb-5" label="Tempat Lahir Wali"></FormInput>
-            <FormInput v-model="form.waliBirthDate" type="date" class="mb-5" label="Tanggal Lahir Wali">
-            </FormInput>
-            <FormInput v-model="form.waliJob" class="mb-5" label="Pekerjaan Wali"></FormInput>
-            <FormInput v-model="form.waliEducation" class="mb-5" label="Pendidikan Wali"></FormInput>
-            <FormText v-model="form.waliAddress" class="mb-5" label="Alamat Wali"></FormText>
-            <FormInput v-model="form.waliPhone" class="mb-5" label="Nomer Telepon Wali"></FormInput>
 
             <div class="mb-5 font-medium text-base">
                 Keterangan Penerimaan:
