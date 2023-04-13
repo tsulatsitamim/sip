@@ -170,38 +170,14 @@ const addClass = () => {
             </div>
             <FormInput v-model="form.nis" class="mb-5" label="Nomer Induk Santri (NIS)"
                 placeholder="Nomer Induk Santri (NIS)"></FormInput>
-            <FormInput v-model="form.nis" class="mb-5" label="Nomer Induk Santri Nasional (NISN)"
+            <FormInput v-model="form.nisn" class="mb-5" label="Nomer Induk Santri Nasional (NISN)"
                 placeholder="Nomer Induk Santri Nasional (NISN)"></FormInput>
 
             <FormInput v-model="form.name" class="mb-5" label="Nama"></FormInput>
-            <FormInput v-model="form.nickname" class="mb-5" label="Nama Panggilan"></FormInput>
-            <FormSelect v-model="form.gender" class="mb-5" label="Jenis Kelamin" :items="genders">
-            </FormSelect>
             <FormInput v-model="form.birthPlace" class="mb-5" label="Tempat Lahir"></FormInput>
             <FormInput v-model="form.birthDate" type="date" class="mb-5" label="Tanggal Lahir"></FormInput>
-            <FormInput v-model="form.address" class="mb-5" label="Alamat Tempat Tinggal"></FormInput>
-            <FormSelect v-model="form.religion" class="mb-5" label="Agama" :items="[{ id: 'Islam', name: 'Islam' }]">
-            </FormSelect>
-            <FormInput v-model="form.citizenship" class="mb-5" label="Kewarganegaraan"></FormInput>
-            <FormInput v-model.number="form.childOrder" type="number" class="mb-5" label="Anak Ke-"></FormInput>
-            <FormInput v-model.number="form.siblings" type="number" class="mb-5" label="Jumlah Saudara Kandung"></FormInput>
-            <FormInput v-model.number="form.stepSiblings" type="number" class="mb-5" label="Jumlah Saudara Tiri">
-            </FormInput>
-            <FormInput v-model.number="form.fosterSiblings" type="number" class="mb-5" label="Jumlah Saudara Angkat">
-            </FormInput>
-            <FormInput v-model="form.language" class="mb-5" label="Bahasa Sehari-hari"></FormInput>
-            <FormInput v-model.number="form.weight" type="number" class="mb-5" label="Berat Badan (kg)"></FormInput>
-            <FormInput v-model.number="form.height" type="number" class="mb-5" label="Tinggi Badan (cm)"></FormInput>
+            <FormText v-model="form.address" class="mb-5" label="Alamat Tempat Tinggal"></FormText>
             <FormSelect v-model="form.bloodType" class="mb-5" label="Golongan Darah" :items="bloodTypes"></FormSelect>
-            <FormInput v-model="form.diseaseHistory" class="mb-5" label="Penyakit Berat yang Pernah Diderita"></FormInput>
-            <FormInput v-model="form.allergy" class="mb-5" label="Alergi Makanan/Lainnya"></FormInput>
-            <FormSelect v-model="form.spicy" class="mb-5" label="Boleh Makan Pedas"
-                :items="[{ id: 'Ya', name: 'Ya' }, { id: 'Tidak', name: 'Tidak' }]">
-            </FormSelect>
-            <FormInput v-model="form.disability" class="mb-5" label="Cacat Fisik"></FormInput>
-            <FormInput v-model="form.retardation" class="mb-5" label="Keterbelakangan Mental/Kebutuhan Khusus"></FormInput>
-            <FormInput v-model="form.stayWith" class="mb-5" label="Tinggal Bersama"></FormInput>
-            <FormInput v-model="form.characteristic" class="mb-5" label="Sifat Anak"></FormInput>
 
             <div class="mb-5 font-medium text-base">
                 Keterangan Orang Tua/Wali:
@@ -231,36 +207,9 @@ const addClass = () => {
             <FormInput v-model="form.waliPhone" class="mb-5" label="Nomer Telepon Wali"></FormInput>
 
             <div class="mb-5 font-medium text-base">
-                Asal Sekolah:
-            </div>
-            <FormSelect v-model="form.originType" class="mb-5" label="Masuk Sebagai"
-                :items="[{ id: 'Baru', name: 'Baru' }, { id: 'Lulusan', name: 'Lulusan' }, { id: 'Pindahan', name: 'Pindahan' }]">
-            </FormSelect>
-            <template v-if="form.originType === 'Lulusan'">
-                <FormSelect v-model="form.originGrade" class="mb-5" label="Lulusan Dari"
-                    :items="[{ id: 'TA', name: 'TA' }, { id: 'TK', name: 'TK' }, { id: 'SD', name: 'SD' }, { id: 'MI', name: 'MI' }, { id: 'SMP', name: 'SMP' }, { id: 'MTS', name: 'MTS' }, { id: 'SMA', name: 'SMA' }, { id: 'MA', name: 'MA' }]">
-                </FormSelect>
-                <FormInput v-model="form.originSchool" class="mb-5" label="Nama Sekolah/Mahad"></FormInput>
-                <FormInput v-model="form.originDate" type="date" class="mb-5" label="Tanggal Lulus">
-                </FormInput>
-            </template>
-            <template v-if="form.originType === 'Pindahan'">
-                <FormSelect v-model="form.originGrade" class="mb-5" label="Pindahan Dari"
-                    :items="[{ id: 'TA', name: 'TA' }, { id: 'TK', name: 'TK' }, { id: 'SD', name: 'SD' }, { id: 'MI', name: 'MI' }, { id: 'SMP', name: 'SMP' }, { id: 'MTS', name: 'MTS' }, { id: 'SMA', name: 'SMA' }, { id: 'MA', name: 'MA' }]">
-                </FormSelect>
-                <FormInput v-model="form.originSchool" class="mb-5" label="Nama Sekolah/Mahad"></FormInput>
-                <FormInput v-model="form.originClass" class="mb-5" label="Pindahan dari Kelas"></FormInput>
-                <FormInput v-model="form.originDate" type="date" class="mb-5" label="Tanggal Pindah">
-                </FormInput>
-            </template>
-
-            <div class="mb-5 font-medium text-base">
                 Keterangan Penerimaan:
             </div>
-            <FormInput v-model="form.entryDate" type="date" class="mb-5" label="Tanggal Diterima">
-            </FormInput>
-            <FormInput v-model="form.entryProgram" class="mb-5" label="Program"></FormInput>
-            <FormInput v-model="form.entryClass" class="mb-5" label="Kelas"></FormInput>
+            <FormInput v-model="form.entryClass" class="mb-5" label="Masuk Kelas"></FormInput>
 
 
             <div class="mb-5 font-medium text-base">
