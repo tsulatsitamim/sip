@@ -2,6 +2,7 @@
 import CrudDataTable from 'tbb-ui/src/components/table/CrudDataTable.vue'
 import AppButton from 'tbb-ui/src/components/button/AppButton.vue'
 import FormSelect from 'tbb-ui/src/components/form/FormSelect.vue'
+import FormCheckbox from 'tbb-ui/src/components/form/FormCheckbox.vue'
 import AppModal from 'tbb-ui/src/components/AppModal.vue'
 import fileDownload from 'js-file-download'
 import { AcademicClass } from '.prisma/client';
@@ -28,6 +29,12 @@ const importMapKeys = {
     'parentPhone': 'Telpon Orang Tua',
     'note': 'Keterangan',
 }
+
+const exportKeyOptions = ref([...Object.entries(importMapKeys).map(x => ({
+    key: x[0],
+    label: x[1],
+    status: true
+}))])
 
 
 const { data: academicYears } = await $fetch('/api/academic-year')
@@ -78,6 +85,7 @@ const getCheckedRows = () => {
 }
 
 const importModal = ref<InstanceType<typeof AppModal> | null>(null)
+const exportModal = ref<InstanceType<typeof AppModal> | null>(null)
 const appModal = ref<InstanceType<typeof AppModal> | null>(null)
 const academicYearIdTarget = ref(null)
 const academicClassIdTarget = ref(null)
@@ -90,6 +98,14 @@ const openImportModal = () => {
     }
     importedStudents = []
     importModal?.value?.open()
+}
+
+const openExportModal = () => {
+    const studentIds = getCheckedRows()
+    if (!studentIds.length) {
+        return alert('Silahkan pilih santri')
+    }
+    exportModal?.value?.open()
 }
 
 const openMoveClassModal = () => {
@@ -117,7 +133,7 @@ const addClass = async () => {
             }
         })
 
-            ; (crud as any).value.dataTable.clearCheckedRows()
+        crud.value?.dataTable?.clearCheckedRows()
         appModal?.value?.close()
 
         alert('Santri berhasil di salin.')
@@ -136,7 +152,8 @@ const exportStudents = async () => {
             method: 'POST',
             body: {
                 studentIds: getCheckedRows(),
-                academicYearId: academicYearId.value
+                academicYearId: academicYearId.value,
+                headers: exportKeyOptions.value.filter(x => x.status)
             },
         })
 
@@ -148,6 +165,7 @@ const exportStudents = async () => {
     }
 
     loading.value = false
+    exportModal.value?.close()
 }
 
 interface InputFileEvent extends Event {
@@ -198,7 +216,7 @@ const importStudents = async () => {
         <template #toolbar>
             <AppButton @click="openImportModal" :loading="loading" color="warning" class="mr-2">
                 Impor</AppButton>
-            <AppButton :loading="loading" @click="exportStudents" color="success" class="mr-2">Ekspor</AppButton>
+            <AppButton :loading="loading" @click="openExportModal" color="success" class="mr-2">Ekspor</AppButton>
             <AppButton @click="openMoveClassModal" color="danger" class="mr-2">Naik Kelas</AppButton>
             <NuxtLink :to="`/santri/tambah`">
                 <AppButton>Tambah Santri</AppButton>
@@ -236,6 +254,12 @@ const importStudents = async () => {
                 <a href="/template-impor.xlsx"> Download Template</a>
             </div>
             <FormInput @input="processSheet" accept=".xlsx" type="file" label="File Excel (.xlsx)"></FormInput>
+        </AppModal>
+
+        <AppModal ref="exportModal" title="Ekspor Santri" save-label="Ekspor" @save="exportStudents">
+            <div class="mb-2">Pilih Kolom</div>
+            <FormCheckbox v-model="exportOption.status" v-for="exportOption in exportKeyOptions" :key="exportOption.key"
+                :label="exportOption.label"></FormCheckbox>
         </AppModal>
     </NuxtLayout>
 </template>
